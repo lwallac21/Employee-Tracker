@@ -7,13 +7,16 @@ const connection = mysql.createConnection({
     password: "root",
     database: "seed"
 });
+
+
 connection.connect(function (err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId);
-    connection.query("SELECT * FROM department", function (err, result, fields) {
+    connection.query("SELECT * FROM department", function (err, result) {
         if (err) throw err;
         console.log(result[0].department_name)
     })
 });
+
 
 module.exports = connection
