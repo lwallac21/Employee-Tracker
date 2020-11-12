@@ -3,6 +3,7 @@ const mysql = require("mysql")
 const cTable = require("console.table")
 const server = require("./package.json")
 const connection = require("./server")
+const { defaultMaxListeners } = require("stream")
 
 function whatToDo() {
     inquirer.prompt([{
@@ -14,12 +15,35 @@ function whatToDo() {
             "Add Employee",
             "View Employees",
             "Delete Employee",
+            "Add Department",
+            "View Departments",
+            "Add role",
+            "View Roles"
         ]
     }]).then(answers => {
         switch (answers.start) {
             case "Update Employee":
                 whatEmployee("employee")
                 break
+            case "Add Employee" :
+                addEmployee("employee")
+            break
+            case "View Employees":
+                view("employee")
+            break
+            case "Delete Employee":
+                deleteEmployee("employee")
+            break
+            case "Add Department":
+                addDepartment("department")
+            break
+            case "View Departments":
+                view("department")
+            break
+            case "Add role":
+                addRole("role")
+            break
+            case view("role")
             default:
                 break
 
@@ -107,24 +131,7 @@ function update(table, answers, id) {
         whatToDo()
     })
 };
-//     inquirer.prompt([{
-//         name: "McEmployee",
-//         type: "list",
-//         message: "Please select an McEmployee:",
-//         choices: [
-//             "Ronald McDonald", "Ham Burgler", "Grimace Smith", "Mayor McCheese", "Uncle O'Grimacey"
-//         ]
-//         .then(answer =>{
 
-//         }
-//             )
-//     }])
-// }
-
-//  Functions needed.
-
-// 1 js page for the inquirer questions
-// 1 js page for the mysql queries using inquirer response data
-
+function whatEmployee(tableName)
 
 whatToDo()
