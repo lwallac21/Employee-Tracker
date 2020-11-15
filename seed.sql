@@ -13,6 +13,9 @@ INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES("Mayor",
 INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES("Ronald", "McDonald", 7, null);
 INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES("Lawrence", "Wallace", 8, 2);
 
+INSERT INTO department(name) VALUES("McMarketing");
+INSERT INTO department(name) VALUES("McManagement");
+INSERT INTO department(name) VALUES("McSales");
 INSERT INTO department(name) VALUES("McNepotism");
 
 

@@ -28,10 +28,10 @@ function whatToDo() {
                 addEmp("employee")
             break
             case "View Employees":
-                view("employee")
+                viewEmployees()
             break
             case "Delete Employee":
-                deleteEmployee("employee")
+                deleteEmp()
             break
             case "Add Department":
                 addDepartment("department")
@@ -130,14 +130,38 @@ function update(table, answers, id) {
     })
 };
 
-function view(tableA, tableB) {
-    connection.query(`SELECT * FROM ${tableA}`, (err, res) => {
+function viewEmployees() {
+    connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;"
+    , (err, res) => {
         // if (err) throw (err)
         console.table(res)
         whatToDo()
     })
 }
 
+function deleteEmp() {
+    let employees = [];
+    connection.query("Select * from employee", function (err, res) {
+        if (err) throw (err)
+        for (let i = 0; i < res.length; i++) {
+            let employee = { name: res[i].first_name + res[i].last_name, value: res[i].id }
+            employees.push(employee)
+        }
+        inquirer.prompt([{
+            name: "Delete",
+            type: "list",
+            message: "Pick an employee to delete:",
+            choices: employees
+        }])
+            .then(answer => {
+                connection.query("Delete from employee where id = ?", [answer.Delete], function (err, res) {
+                    if (err) throw (err)
+                    console.log("Employee has been deleted.")
+                })
+                whatToDo();
+            })
+    })
+}
 
 
 function employeeInfo(table) {
@@ -169,7 +193,7 @@ function employeeInfo(table) {
 ]).then(answers => {
     console.log(answers)
     connection.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) 
-    VALUES(${answers.firstName}, ${answers.lastName}, ${answers.role}, ${answers.manager}`)
+    VALUES("${answers.firstName}", "${answers.lastName}", "${answers.role}", "${answers.manager}")`)
 })
 }
     
